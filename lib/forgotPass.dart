@@ -38,7 +38,7 @@ class PassRecover extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
-        '/main': (BuildContext context) => MainPage(),
+        '/main': (BuildContext context) => Main(),
       },
       //debugShowCheckedModeBanner: false,
       title: "Material",

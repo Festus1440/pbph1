@@ -1,23 +1,20 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-//import 'package:share/share.dart';
 
+class Stories extends StatefulWidget{
+  final Color _mainColor;
+  final Map _data;
+  Stories(this._mainColor,this._data);
 
-Color mainColor = Colors.blue;
-
-
-class ShelterStories extends StatefulWidget{
   @override
-  ShelterStoriesState createState() => ShelterStoriesState();
+  StoriesState createState() => StoriesState();
 }
 
-class ShelterStoriesState extends State<ShelterStories> {
+class StoriesState extends State<Stories> {
 
   @override
   void initState() {
     super.initState();
-    //Timer.run(() => _showDialog());
   }
 
   @override
@@ -25,10 +22,10 @@ class ShelterStoriesState extends State<ShelterStories> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Stories"),
-        backgroundColor: mainColor,
+        backgroundColor: widget._mainColor,
       ),
       bottomNavigationBar: BottomAppBar(
-        color: mainColor,
+        color: widget._mainColor,
         child: Padding(
           padding: EdgeInsets.all(20),
         ),
@@ -49,7 +46,7 @@ class ShelterStoriesState extends State<ShelterStories> {
           Divider(
             height: 10,
             thickness: 5,
-            color: mainColor,
+            color: widget._mainColor,
             indent: 0.0,
             endIndent: 0.0,
           ),
@@ -79,7 +76,7 @@ class ShelterStoriesState extends State<ShelterStories> {
           Divider(
             height: 40.0,
             thickness: 5,
-            color: mainColor,
+            color: widget._mainColor,
             indent: 0.0,
             endIndent: 0.0,
           ),

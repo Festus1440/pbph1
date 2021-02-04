@@ -1,40 +1,26 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'RestaurantMain.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pb_ph1/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'ShelterRestaurantMain.dart';
-import 'ShelterRestaurantMain.dart';
+import 'BottomBar/ShelterRestaurantMain.dart';
 import 'login.dart';
 import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:provider/provider.dart';
 
-void main() => runApp(
-    MainPage()
-);
-var MROLE;
-class MainPage extends StatefulWidget {
+void main() => runApp(Main());
+class Main extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainState createState() => _MainState();
 }
 
-class _MainPageState extends State<MainPage> {
-  //FirebaseUser currentUser;
+class _MainState extends State<Main> {
 
   @override
   void initState(){
     super.initState();
-    //getCurrentUser();
   }
-
-
-  //for later
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +43,6 @@ _goToPage(BuildContext context, String page) async {
     );
     if (role != null) {
       print(role);
-      MROLE = role;
       user = role;
     }
   }
@@ -68,7 +53,6 @@ _goToPage(BuildContext context, String page) async {
     );
     if (role != null) {
       print(role);
-      MROLE = role;
       user = role;
     }
   }

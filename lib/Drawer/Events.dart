@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-//import 'package:share/share.dart';
-import 'package:pb_ph1/common.dart';
 
-
-Color mainColor = Colors.blue;
-
-//comitted//
 class Events extends StatefulWidget{
+  final Color _mainColor;
+  final Map _data;
+  Events(this._mainColor,this._data);
+
   @override
   EventsState createState() => EventsState();
 }
@@ -26,10 +23,10 @@ class EventsState extends State<Events> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Events"),
-        backgroundColor: mainColor,
+        backgroundColor: widget._mainColor,
       ),
       bottomNavigationBar: BottomAppBar(
-        color: mainColor,
+        color: widget._mainColor,
         child: Padding(
           padding: EdgeInsets.all(20),
         ),

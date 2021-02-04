@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pb_ph1/ShelterDrawer/Events.dart';
-import 'package:pb_ph1/restaurantDrawer/Help.dart';
-import 'package:pb_ph1/restaurantDrawer/ResturantStories.dart';
-import 'package:pb_ph1/restaurantDrawer/shelterDetails.dart';
+import 'package:pb_ph1/Drawer/Events.dart';
+import 'package:pb_ph1/Drawer/Help.dart';
+import 'package:pb_ph1/Drawer/Stories.dart';
+import 'package:pb_ph1/Drawer/shelterDetails.dart';
 
 import 'Analytics/Shelter/ShelterMainAnalytics.dart';
-import 'ShelterDrawer/Settings.dart';
-import 'ShelterDrawer/restaurantDetails.dart';
+import 'Drawer/Settings.dart';
+import 'Drawer/restaurantDetails.dart';
 import 'main.dart';
 
 class Drawers extends StatelessWidget {
@@ -98,7 +98,7 @@ class Drawers extends StatelessWidget {
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Stories("Shelter")));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Stories(_mainColor, data)));
                     },
                     leading: Icon(Icons.library_books),
                     title: Text("Stories"),
@@ -107,7 +107,7 @@ class Drawers extends StatelessWidget {
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Events()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Events(_mainColor, data)));
                     },
                     leading: Icon(Icons.event),
                     title: Text("Events"),
@@ -129,7 +129,7 @@ class Drawers extends StatelessWidget {
                         builder: (BuildContext context) {
                           // return object of type Dialog
                           return AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+                            //shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
                             backgroundColor: Colors.white,
                             title: new Text("Favorites coming soon!"),
                             content: new Text("Soon you will be able to favorite Shelters you work with"
@@ -175,7 +175,7 @@ class Drawers extends StatelessWidget {
                       FirebaseAuth.instance.signOut().then((value) {
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => MainPage()),
+                          MaterialPageRoute(builder: (context) => Main()),
                               (Route<dynamic> route) => false,
                         );
                       });
@@ -214,7 +214,7 @@ class Drawers extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Stories("Restaurant")));
+                          MaterialPageRoute(builder: (context) => Stories(_mainColor, data)));
                     },
                     leading: Icon(Icons.library_books),
                     title: Text("Stories"),

@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pb_ph1/Home.dart';
-import 'package:pb_ph1/restaurantBottomBar/pickup.dart';
+import 'package:pb_ph1/BottomBar/pickup.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ShelterDrawer/Settings.dart';
-import 'drawers.dart';
+import '../Drawer/Settings.dart';
+import '../drawers.dart';
 import 'Gmap.dart';
-import 'package:pb_ph1/ShelterDrawer/Settings.dart';
+import 'package:pb_ph1/Drawer/Settings.dart';
 
 
 class ShelterRestaurantMain extends StatefulWidget {

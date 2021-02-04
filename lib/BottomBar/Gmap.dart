@@ -13,7 +13,8 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
-import 'map_request.dart';
+import '../common.dart';
+
 
 const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 0;
@@ -31,10 +32,8 @@ class GMapState extends State<GMap> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {}; // initialise a list of markers
   final Set<Polyline> polyLines = {};
-  GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   Set<Polyline> get _polyLines => polyLines;
   List<LatLng> routeCords;
-  String googleAPiKey = "AIzaSyAp9WMYokTxIxuOlphnUT63L2HlLzv6Qck";
   BitmapDescriptor currentLocIcon; // initialise custom markers
   BitmapDescriptor shelterIcon; // ""
   BitmapDescriptor restaurantIcon; // ""
@@ -54,14 +53,6 @@ class GMapState extends State<GMap> {
     // this function is called when the page starts
     super.initState();
     init(); // get user location and ask for permission
-  }
-
-  void sendRequest(lat, long) async {
-    LatLng origin = LatLng(currentLocation.latitude, currentLocation.longitude);
-    LatLng destination = LatLng(lat, long);
-    String route =
-        await _googleMapsServices.getRouteCoordinates(origin, destination);
-    setPolyline(route, origin.toString());
   }
 
   void onCameraMove(CameraPosition position) {

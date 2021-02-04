@@ -2,27 +2,24 @@
 
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-
-
-class ShelterAnalytics extends StatelessWidget{
-
-
+class RestaurantAnalytics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AnalyticsBody(),
-    );
+    return AnalyticsBody();
   }
 }
 
-class AnalyticsBody extends StatefulWidget{
+class AnalyticsBody extends StatefulWidget {
   AnalyticsBody({Key key}) : super (key: key);
 
   @override
   _AnalyticsBodyState createState() => _AnalyticsBodyState();
 }
+
 
 class _AnalyticsBodyState extends State<AnalyticsBody> {
 
@@ -41,16 +38,46 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
       fontWeight: FontWeight.bold
   );
 
-  //Will store data to displayed on the screen when a button icon is selected.
-  //Currently it contains only text
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Savings',
-      style: optionStyle,
+  Widget selectButton(BuildContext context){
+    return Center(
+      child: Column(
+         children: <Widget>[
+           _createToolBar(),
+           Image(
+             image: AssetImage('assets/barChart3.png'),
+           )
+         ],
+      ),
+    );
+  }
+
+  static List<Widget> _widgetOptions = <Widget>[
+    Center(
+      child: Column(
+        children: <Widget>[
+          Image(
+            image: AssetImage('assets/barChart3.png'),
+          ),
+        ],
+      ),
     ),
-    Text(
-      'Coming Soon',
-      style: optionStyle,
+    Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              'Position 1'
+            ),
+            Text(
+              'Position 2'
+            ),
+            Text(
+              'Position 4'
+            ),
+          ],
+        ),
+      ),
     ),
     Text(
       'Coming Soon',
@@ -77,20 +104,58 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
       _selectedIndex = index;
     });
   }
+  final graphButtonStyle = TextStyle(color: Colors.black, fontStyle: FontStyle.italic, fontSize: 30,);
+
+  //Defines and creates the top bar on the chart.
+  Row _createToolBar(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        new ButtonBar(children: <Widget>[
+          RaisedButton(
+            child: Text('Week',
+              style: graphButtonStyle,
+            ),
+            onPressed: null,
+          ),
+          RaisedButton(
+            child: Text('Month',
+              style: graphButtonStyle,
+            ),
+            onPressed: null,
+          ),
+          RaisedButton(
+            child: Text('Year',
+              style: graphButtonStyle,
+            ),
+            onPressed: null,
+          )
+        ],
+        ),
+      ],
+    );
+  }
+
 
   //Builds the overall view of the Analytics page
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
         appBar: AppBar( //Top Bar.
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.green,
           title: Text("My Analytics"),
         ),
         body: Center( //Body of the screen
-          child: _widgetOptions.elementAt(_selectedIndex),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _createToolBar(),
+              _widgetOptions.elementAt(_selectedIndex),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar( //Lower navigation.
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.grey,
           items: const <BottomNavigationBarItem>[
             //Contains the lower icons on the screen
             BottomNavigationBarItem(
@@ -114,7 +179,6 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
           onTap: _onItemTapped, //Action
         ),
       );
-
   }
 
   void _showDialog() {
@@ -135,7 +199,7 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
 // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Sounds good!"),
-              textColor: Colors.blue,
+              textColor: Colors.green,
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -165,7 +229,7 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
 // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Sounds good!"),
-              textColor: Colors.blue,
+              textColor: Colors.green,
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -195,7 +259,7 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
 // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Sounds good"),
-              textColor: Colors.blue,
+              textColor: Colors.green,
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -225,7 +289,7 @@ class _AnalyticsBodyState extends State<AnalyticsBody> {
 // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Sounds good!"),
-              textColor: Colors.blue,
+              textColor: Colors.green,
               onPressed: () {
                 Navigator.of(context).pop();
               },
