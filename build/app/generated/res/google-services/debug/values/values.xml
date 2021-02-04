@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">346476666465-gbnqqaidigb5ohot8e5fben25ugap8d2.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://platebeacon-66f59.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">346476666465</string>
+    <string name="google_api_key" translatable="false">AIzaSyA_Vn5WdD1mnmfOm4o5TBIyWuBlBpkS_SY</string>
+    <string name="google_app_id" translatable="false">1:346476666465:android:5c86b95e85ef6f19449420</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA_Vn5WdD1mnmfOm4o5TBIyWuBlBpkS_SY</string>
+    <string name="google_storage_bucket" translatable="false">platebeacon-66f59.appspot.com</string>
+    <string name="project_id" translatable="false">platebeacon-66f59</string>
+</resources>
