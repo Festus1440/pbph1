@@ -16,6 +16,31 @@ class StoriesState extends State<Stories> {
   void initState() {
     super.initState();
   }
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
+          backgroundColor: Colors.white,
+          title: new Text("Stories coming soon!"),
+          content: new Text("Soon you'll be able to share your experiences using Plate Beacon to all your fans!"
+              " Be proud of the contributions you've made to help those in need! We Applaud you!"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new
+              Text("Sounds good!") ,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +123,6 @@ class StoriesState extends State<Stories> {
            title: Text("Facebook"),
             trailing: Icon(Icons.more_vert),
           ),
-          /*FlatButton(
-            onPressed: (){
-              "Comming Soon";
-            },
-            child: Text(
-              "Behnaz",
-
-            )
-
-          ),*/
 
           ListTile(
             onTap: (){
@@ -130,31 +145,6 @@ class StoriesState extends State<Stories> {
 
         ],
       ),
-    );
-  }
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
-          backgroundColor: Colors.white,
-          title: new Text("Stories coming soon!"),
-          content: new Text("Soon you'll be able to share your experiences using Plate Beacon to all your fans!"
-              " Be proud of the contributions you've made to help those in need! We Applaud you!"),
-          actions: <Widget>[
-            new FlatButton(
-              child: new
-              Text("Sounds good!") ,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

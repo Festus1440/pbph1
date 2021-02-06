@@ -16,7 +16,6 @@ class _ShelterMainAnalyticsState extends State<ShelterMainAnalytics> {
   @override
   void initState() {
     super.initState();
-    //Timer.run(() => _showDialog());
   }
 
   int _currentIndex = 0;

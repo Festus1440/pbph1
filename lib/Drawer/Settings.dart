@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:pb_ph1/Drawer/Help.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatefulWidget {
@@ -687,7 +688,6 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
-    //Timer.run(() => _showDialog());
   }
 
   @override
@@ -704,12 +704,13 @@ class _NotificationsState extends State<Notifications> {
           padding: EdgeInsets.all(20),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-              //alignment: Alignment.topLeft,
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
               child: Text(
                 "Select which apps you want to receive notifications",
                 style: TextStyle(
@@ -718,137 +719,62 @@ class _NotificationsState extends State<Notifications> {
                 ),
               ),
             ),
-          ),
-          Center(
-            child: Container(
-                margin: EdgeInsets.only(top: 30.0, left: 30.0, right: 15.0),
-                child: Row(children: [
-                  const Icon(
-                    Icons.email,
-                    size: 50.0,
-                  ),
-                  Text(
-                    "  Mail",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Spacer(),
-                  Switch(
-                      activeColor: Colors.greenAccent,
-                      value: emailStatus,
-                      onChanged: (value) {
-                        print("VALUE : $value");
-                        setState(() {
-                          emailStatus = value;
-                        });
-                      })
-                ])),
-          ),
-          Divider(
-            height: 20.0,
-            thickness: 0.5,
-            color: widget._mainColor,
-            indent: 0.0,
-            endIndent: 0.0,
-          ),
-          Container(
-            //color: Colors.black12,
-            child: Column(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: 30.0, left: 30.0, right: 15.0),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Row(children: [
-                              const Icon(Icons.message, size: 50.00),
-                              Text(
-                                "  Messages",
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Spacer(),
-                              Switch(
-                                  activeColor: Colors.greenAccent,
-                                  value: msgStatus,
-                                  onChanged: (value) {
-                                    print("VALUE : $value");
-                                    setState(() {
-                                      msgStatus = value;
-                                    });
-                                  }),
-                            ]),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      height: 20.0,
-                      thickness: 0.5,
-                      color: widget._mainColor,
-                      indent: 0.0,
-                      endIndent: 0.0,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin:
-                      EdgeInsets.only(top: 30.0, left: 30.0, right: 15.0),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Row(children: [
-                              const Icon(
-                                Icons.call,
-                                size: 50.00,
-                              ),
-                              Text(
-                                "  Calls",
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Spacer(),
-                              Switch(
-                                  activeColor: Colors.blueAccent,
-                                  value: callStatus,
-                                  onChanged: (value) {
-                                    print("VALUE : $value");
-                                    setState(() {
-                                      callStatus = value;
-                                    });
-                                  }),
-                            ]),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      height: 20.0,
-                      thickness: 0.5,
-                      color: widget._mainColor,
-                      indent: 0.0,
-                      endIndent: 0.0,
-                    ),
-                  ],
-                ),
-              ],
+            ListTile(
+              contentPadding: EdgeInsets.all(15),
+              leading: Icon(Icons.mail,size: 30,),
+              title: Text("Email"),
+              trailing: Switch(
+                  activeColor: widget._mainColor,
+                  value: emailStatus,
+                  onChanged: (value) {
+                    print("VALUE : $value");
+                    setState(() {
+                      emailStatus = value;
+                    });
+                  }),
             ),
-          ),
-
-        ],
+            Divider(
+              height: 0,
+              color: widget._mainColor,
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.all(15),
+              leading: Icon(Icons.message,size: 30,),
+              title: Text("Messages"),
+              trailing: Switch(
+                  activeColor: widget._mainColor,
+                  value: msgStatus,
+                  onChanged: (value) {
+                    print("VALUE : $value");
+                    setState(() {
+                      msgStatus = value;
+                    });
+                  }),
+            ),
+            Divider(
+              height: 0,
+              color: widget._mainColor,
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.all(15),
+              leading: Icon(Icons.phone,size: 30,),
+              title: Text("Calls"),
+              trailing: Switch(
+                  activeColor: widget._mainColor,
+                  value: callStatus,
+                  onChanged: (value) {
+                    print("VALUE : $value");
+                    setState(() {
+                      callStatus = value;
+                    });
+                  }),
+            ),
+            Divider(
+              height: 0,
+              color: widget._mainColor,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -857,7 +783,7 @@ class _NotificationsState extends State<Notifications> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-// return object of type Dialog
+//      return object of type Dialog
         return AlertDialog(
           elevation: 0.0,
           shape:

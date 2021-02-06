@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'BottomBar/ShelterRestaurantMain.dart';
+import 'BottomBar/ClientRestaurantMain.dart';
 import 'login.dart';
 import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +28,7 @@ class _MainState extends State<Main> {
         theme: ThemeData(fontFamily: 'SF'),
         debugShowCheckedModeBanner: false,
         title: "Plate Beacon",
-        home: DetermineUser()
+        home: DetermineUser(),
     );
   }
 }
@@ -49,7 +49,7 @@ _goToPage(BuildContext context, String page) async {
   else{
     final role = await Navigator.push(context,
       MaterialPageRoute(
-          builder: (context) => RegisterPage(), fullscreenDialog: true),
+          builder: (context) => Register(), fullscreenDialog: true),
     );
     if (role != null) {
       print(role);
@@ -107,7 +107,6 @@ class _DetermineUserState extends State<DetermineUser> {
     }
     return data;
   }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -131,8 +130,8 @@ class _DetermineUserState extends State<DetermineUser> {
                   if(snapshot.connectionState == ConnectionState.done){
                     if(snapshot.hasData){
                       print("has data ${snapshot.data.toString()}");
-                      if(snapshot.data["role"] == "Shelter" || snapshot.data["role"] == "Restaurant"){
-                        return ShelterRestaurantMain(snapshot.data);
+                      if(snapshot.data["role"] == "Client" || snapshot.data["role"] == "Restaurant"){
+                        return ClientRestaurantMain(snapshot.data);
                       }
                       else {
                         return NotLoggedInPage();
@@ -177,91 +176,93 @@ class _NotLoggedInPageState extends State<NotLoggedInPage> {
         children: <Widget>[
           Positioned(
             top: 120,
-            right: 60,
-            left: 60,
+            right: 70,
+            left: 70,
             child: Container(
               //padding: EdgeInsets.fromLTRB(15.0, 100.0, 0.0, 0.0),
               child: Image(
-                image: AssetImage('assets/PB.jpg'),
+                image: AssetImage('assets/PB2.jpg'),
                 //width: 190.0,
               ),
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 0,
             right: 0,
             left: 0,
-            child: Container(
-              padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 80.0),
-                  Container(
-                    child: FlatButton(
-                      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      color: Colors.green,
-                      textColor: Colors.white,
-                      disabledTextColor: Colors.black,
-                      //splashColor: Colors.blueAccent,
-                      onPressed: () async {
-                        //_goToPage(context, "login");
-                        var role;
-                        Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginPage()),
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        child: Text(
-                          "Log in",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-
-                  Container(
-                    child: OutlineButton(
-                      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      //color: Colors.green,
-                      //textColor: Colors.white,
-                      borderSide: BorderSide(
+            child: SafeArea(
+              child: Container(
+                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 80.0),
+                    Container(
+                      child: FlatButton(
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         color: Colors.green,
-                        style: BorderStyle.solid,
-                        width: 0.8,
-                      ),
-
-                      disabledTextColor: Colors.black,
-                      //splashColor: Colors.blueAccent,
-                      onPressed: () async {
-                        //var role;
-                        Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
+                        textColor: Colors.white,
+                        disabledTextColor: Colors.black,
+                        //splashColor: Colors.blueAccent,
+                        onPressed: () async {
+                          //_goToPage(context, "login");
+                          var role;
+                          Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50.0,
+                          child: Text(
+                            "Log in",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20.0),
+                    SizedBox(height: 15.0),
 
-                ],
+                    Container(
+                      child: OutlineButton(
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        //color: Colors.green,
+                        //textColor: Colors.white,
+                        borderSide: BorderSide(
+                          color: Colors.green,
+                          style: BorderStyle.solid,
+                          width: 0.8,
+                        ),
+
+                        disabledTextColor: Colors.black,
+                        //splashColor: Colors.blueAccent,
+                        onPressed: () async {
+                          //var role;
+                          Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()),
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50.0,
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+
+                  ],
+                ),
               ),
             ),
           )

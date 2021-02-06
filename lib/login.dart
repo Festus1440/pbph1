@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:flutterapp/ShelterDrawer/loading.dart';
 //import 'forgotPass.dart';
+import 'forgotPass.dart';
 import 'main.dart';
 import 'register.dart';
-//import 'ShelterRestaurantMain.dart';
+//import 'ClientRestaurantMain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -38,7 +39,28 @@ class _LoginPageState extends State<LoginPage> {
       );
     });
   }
-
+  void _login()async{
+    if (_email == null || _email == "") {
+      showError("Email can't be empty", true);
+    } else if (_password == null || _password == "") {
+      showError("Password can't be empty", true);
+    } else {
+      showError("", false);
+      setState(() {
+        loading = true;
+      });
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim()).then((value) {
+        Map userD = {"role": "null", "uid": value.user.uid};
+        _save(userD, value.user.uid);
+      }).catchError((error) {
+        setState(() {
+          loading = false;
+        });
+        showError(error.message, true);
+        print("Error: " + error.message);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,17 +82,10 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
             Container(
-              alignment: Alignment.center,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 0.0),
-                    child: Image(
-                      image: AssetImage('assets/PB.jpg'),
-                      width: 190.0,
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.only(top: 40,bottom: 40,right: 100,left: 100),
+              child: Image(
+                image: AssetImage('assets/PB2.jpg'),
+                width: 190.0,
               ),
             ),
             Container(
@@ -172,12 +187,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: InkWell(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => PassRecoverPage(),
-                          //       fullscreenDialog: true),
-                          // );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PassRecover(),
+                                fullscreenDialog: true),
+                          );
                         },
                         child: Text(
                           "Forgot Password?",
@@ -190,73 +205,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 30.0),
+                  MaterialButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    elevation: 1,
+                    color: Colors.green,
+                    textColor: Colors.white,
+                    disabledColor: Colors.grey,
+                    disabledTextColor: Colors.white,
+                    minWidth: MediaQuery.of(context).size.width * 0.9,
+                    height: 50.0,
+                    child: Text("Login"),
+                    onPressed: loading ? null : () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      _login();
+                    },
+                  ),
                   Container(
-                    child: Stack(
-                      children: <Widget>[
-                        Visibility(
-                          visible: loginVisible,
-                          child: Container(
-                              margin: EdgeInsets.only(top: 25),
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 40,
-                              child: CircularProgressIndicator()),
-                        ),
-                        Visibility(
-                          visible: !loginVisible,
-                          child: FlatButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0)),
-                            color: Colors.green,
-                            textColor: Colors.white,
-                            disabledColor: Colors.grey,
-                            disabledTextColor: Colors.black,
-                            //splashColor: Colors.blueAccent,
-                            onPressed: () {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              setState(() {
-                                loading = true;
-                              });
-                              if (_email == null || _email == "") {
-                                showError("Email can't be empty", true);
-                              } else if (_password == null || _password == "") {
-                                showError("Password can't be empty", true);
-                              } else {
-                                showError("", false);
-                                setState(() {
-                                  loginVisible = true;
-                                });
-                                FirebaseAuth.instance.signInWithEmailAndPassword(email: _email.trim(), password: _password.trim()).then((value) {
-                                  Map userD = {"role": "null", "uid": value.user.uid};
-                                  _save(userD, value.user.uid);
-                                  //Navigator.pop(context, userD);
-                                }).catchError((error) {
-                                  setState(() {
-                                    loginVisible = false;
-                                  });
-                                  showError(error.message, true);
-                                  print("Error: " + error.message);
-                                });
-                                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ShelterMain()),);
-                                //Navigator.of(context).pushReplacementNamed('shelterMain');
-                              }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 50.0,
-                              child: Text(
-                                "Log in",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    padding: EdgeInsets.all(10),
+                    child: Text("OR"),
+                  ),
+                  MaterialButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    color: Colors.green,
+                    disabledColor: Colors.grey,
+                    elevation: 1,
+                    textColor: Colors.white,
+                    disabledTextColor: Colors.white,
+                    minWidth: MediaQuery.of(context).size.width * 0.9,
+                    height: 50.0,
+                    child: Text("Create account"),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                    },
                   ),
                 ],
               ),

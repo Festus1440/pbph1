@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:share/share.dart';
 
-
-Color mainColor = Colors.green;
 class Help extends StatefulWidget{
+  final Color _mainColor;
+  final Map _data;
+
+  Help(this._mainColor,this._data);
   @override
   HelpState createState() => HelpState();
 
 }
 class HelpState extends State<Help> {
-Color mainColor;
   @override
   void initState() {
     // this function is called when the page starts
@@ -22,10 +22,10 @@ Color mainColor;
     return Scaffold(
       appBar: AppBar(
         title: Text("Help"),
-        backgroundColor: mainColor,
+        backgroundColor: widget._mainColor,
       ),
       bottomNavigationBar: BottomAppBar(
-        color: mainColor,
+        color: widget._mainColor,
         child: Padding(
           padding: EdgeInsets.all(20),
         ),

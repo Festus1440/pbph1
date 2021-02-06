@@ -411,24 +411,6 @@ class GMapState extends State<GMap> {
     setState(() {
       // updated position
       var pinPosition = LatLng(currentLocation.latitude, currentLocation.longitude);
-
-//      FirebaseAuth.instance.currentUser().then((user) {
-//        String role2;
-//        if (user.displayName == "Shelter") {
-//          role2 = "Shelter";
-//          Firestore.instance.collection(role2).document(user.uid).updateData({
-//            'lat': pinPosition.latitude,
-//            'long': pinPosition.longitude,
-//          }).then((onValue) {});
-//        } else {
-//          role2 = "Restaurant";
-//          Firestore.instance.collection(role2).document(user.uid).updateData({
-//            'lat': pinPosition.latitude,
-//            'long': pinPosition.longitude,
-//          }).then((onValue) {});
-//        }
-//      });
-
       _markers.removeWhere((m) => m.markerId.value == 'currentLoc');
       _markers.add(Marker(
           onTap: () {

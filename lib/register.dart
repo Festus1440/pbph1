@@ -9,18 +9,18 @@ import 'main.dart';
 //import 'package:provider/provider.dart';
 //import 'ShelterDrawer/loading.dart';
 
-//import 'ShelterRestaurantMain.dart';
+//import 'ClientRestaurantMain.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class RegisterPage extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  RegisterPageState createState() => RegisterPageState();
+  RegisterState createState() => RegisterState();
 }
 
-class RegisterPageState extends State<RegisterPage> {
-  bool loading = false;
-  Color mainColor = Colors.green;
+class RegisterState extends State<Register> {
+  bool _loading = false;
+  Color _mainColor = Colors.green;
   String checkBoxLabelText = "Restaurant/Organization Name";
   bool _isRestaurant = true;
   bool _isShelter = false;
@@ -28,11 +28,51 @@ class RegisterPageState extends State<RegisterPage> {
   String role = "Restaurant";
   bool errorVisible = false;
   String loginError = "";
-  void showError(error, show) {
+  void _showError(error, show) {
     setState(() {
       loginError = error;
       errorVisible = show;
     });
+  }
+  void _register()async{
+    //error checking first
+    if (_email == null || _email == "") {
+      _showError("Email can't be empty", true);
+    } else if (_password == null || _password == "") {
+      _showError("Password can't be empty", true);
+    } else if (_name == null || _name == "") {
+      _showError("Name can't be empty", true);
+    } else {
+      _showError("Please wait ...", true);
+      setState(() => _loading = true);
+      FirebaseAuth _auth = FirebaseAuth.instance;
+      try {
+        await _auth.createUserWithEmailAndPassword(
+          email: _email.trim(),
+          password: _password.trim(),
+        ).then((userCre) {
+          FirebaseFirestore.instance
+              .collection("users")
+              .doc(userCre.user.uid)
+              .set({
+            'displayName': _name,
+            'email': _email.trim(),
+            'role': "client",
+            'lat': 0.0,
+            'long': 0.0,
+            'uid': userCre.user.uid,
+          }).then((onValue) {
+            Map userD = {"role": role, "uid": userCre.user.uid};
+            _save(userD, userCre.user.uid);
+            //Navigator.pop(context, userID);
+          });
+        });
+      } catch (e) {
+        setState(() => _loading = false);
+        _showError(e.message, true);
+        print(e.toString());
+      }
+    }
   }
 
   @override
@@ -41,7 +81,7 @@ class RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomAppBar(
         elevation: 10.0,
-        color: mainColor,
+        color: _mainColor,
         child: Padding(
           padding: EdgeInsets.all(20),
         ),
@@ -49,7 +89,7 @@ class RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         elevation: 10.0,
         title: Text("Register"),
-        backgroundColor: mainColor,
+        backgroundColor: _mainColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -72,72 +112,6 @@ class RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: FilterChip(
-                          backgroundColor: Colors.black12,
-                          selectedColor: Colors.green,
-                          labelStyle: TextStyle(color: Colors.black),
-                          padding: EdgeInsets.all(8.0),
-                          label: Row(
-                            children: <Widget>[
-                              Icon(Icons.restaurant),
-                              Text(' Restaurant'),
-                            ],
-                          ),
-                          selected: _isRestaurant,
-                          onSelected: (selected) {
-                            setState(() {
-                              loading = true;
-                              _isRestaurant = selected;
-                              if (selected == true) {
-                                setState(() {
-                                  mainColor = Colors.green;
-                                  _isShelter = !selected;
-                                  role = "Restaurant";
-                                  print(role);
-                                  checkBoxLabelText =
-                                  "Restaurant/Organization Name";
-                                });
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 10.0),
-                      Expanded(
-                        child: FilterChip(
-                          backgroundColor: Colors.black12,
-                          selectedColor: Colors.blue,
-                          labelStyle: TextStyle(color: Colors.black),
-                          padding: EdgeInsets.all(8.0),
-                          label: Row(
-                            children: <Widget>[
-                              Icon(Icons.home),
-                              Text(' Shelter'),
-                            ],
-                          ),
-                          selected: _isShelter,
-                          onSelected: (selected) {
-                            setState(() {
-                              loading = true;
-                              _isShelter = selected;
-                              if (selected == true) {
-                                setState(() {
-                                  mainColor = Colors.blue;
-                                  _isRestaurant = !selected;
-                                  role = "Shelter";
-                                  print(role);
-                                  checkBoxLabelText = "Shelter Name";
-                                });
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
                   Container(
                     //margin: EdgeInsets.all(10),
                     //color: Colors.lightBlue,
@@ -148,7 +122,7 @@ class RegisterPageState extends State<RegisterPage> {
                           children: <Widget>[
                             Icon(
                               Icons.account_box,
-                              color: mainColor,
+                              color: _mainColor,
                             ),
                             SizedBox(
                               width: 20,
@@ -158,25 +132,24 @@ class RegisterPageState extends State<RegisterPage> {
                                 keyboardType: TextInputType.text,
                                 textCapitalization: TextCapitalization.words,
                                 textInputAction: TextInputAction.next,
-                                onSubmitted: (_) =>
-                                    FocusScope.of(context).nextFocus(),
+                                onSubmitted: (_) => FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                  labelText: checkBoxLabelText,
+                                  labelText: "Name",
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: mainColor),
+                                    borderSide: BorderSide(color: _mainColor),
                                   ),
                                 ),
                                 onChanged: (value) {
                                   this.setState(() {
                                     _name = value;
                                     if (_name == "") {
-                                      showError("Name can't be empty", true);
-                                      loading = false;
+                                      _showError("Name can't be empty", true);
+                                      _loading = false;
                                     } else {
-                                      showError("", false);
+                                      _showError("", false);
                                     }
                                   });
-                                },
+                                }
                               ),
                             ),
                           ],
@@ -186,7 +159,7 @@ class RegisterPageState extends State<RegisterPage> {
                           children: <Widget>[
                             Icon(
                               Icons.email,
-                              color: mainColor,
+                              color: _mainColor,
                             ),
                             SizedBox(width: 20),
                             Expanded(
@@ -203,10 +176,10 @@ class RegisterPageState extends State<RegisterPage> {
                                   this.setState(() {
                                     _email = value;
                                     if (_email == "") {
-                                      showError("Email can't be empty", true);
-                                      loading = false;
+                                      _showError("Email can't be empty", true);
+                                      _loading = false;
                                     } else {
-                                      showError("", false);
+                                      _showError("", false);
                                     }
                                   });
                                 },
@@ -219,7 +192,7 @@ class RegisterPageState extends State<RegisterPage> {
                           children: <Widget>[
                             Icon(
                               Icons.lock,
-                              color: mainColor,
+                              color: _mainColor,
                             ),
                             SizedBox(width: 20),
                             Expanded(
@@ -234,10 +207,10 @@ class RegisterPageState extends State<RegisterPage> {
                                   this.setState(() {
                                     _password = value;
                                     if (_password == "") {
-                                      showError("Password can't be empty", true);
-                                      loading = false;
+                                      _showError("Password can't be empty", true);
+                                      _loading = false;
                                     } else {
-                                      showError("", false);
+                                      _showError("", false);
                                     }
                                   });
                                 },
@@ -257,75 +230,26 @@ class RegisterPageState extends State<RegisterPage> {
                       child: Text(
                         loginError,
                         style: TextStyle(
-                          color: mainColor,
+                          color: _mainColor,
                         ),
                       ),
                     ),
                   ),
                   SizedBox(height: 25.0),
-                  Container(
-                    child: FlatButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      //elevation: 10.0,
-                      color: mainColor,
-                      textColor: Colors.white,
-                      disabledColor: Colors.grey,
-                      disabledTextColor: Colors.black,
-                      //padding: EdgeInsets.fromLTRB(30.0, 8.0, 20.0, 8.0),
-                      //splashColor: Colors.blueAccent,
-                      onPressed: () async {
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        setState(() => loading = false);
-                        if (_email == null || _email == "") {
-                          showError("Email can't be empty", true);
-                        } else if (_password == null || _password == "") {
-                          showError("Password can't be empty", true);
-                        } else if (_name == null || _name == "") {
-                          showError("Name can't be empty", true);
-                        } else {
-                          showError("Please wait ...", true);
-                          setState(() => loading = true);
-                          FirebaseAuth _auth = FirebaseAuth.instance;
-                          try {
-                            _auth.createUserWithEmailAndPassword(
-                              email: _email.trim(),
-                              password: _password.trim(),
-                            ).then((userCre) {
-                              FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(userCre.user.uid)
-                                  .set({
-                                'displayName': _name,
-                                'email': _email.trim(),
-                                'role': role,
-                                'lat': 0.0,
-                                'long': 0.0,
-                                'uid': userCre.user.uid,
-                              }).then((onValue) {
-                                Map userD = {"role": role, "uid": userCre.user.uid};
-                                _save(userD, userCre.user.uid);
-                                //Navigator.pop(context, userID);
-                              });
-                            });
-                          } catch (e) {
-                            showError(e.message, true);
-                            print(e.toString());
-                          }
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        child: Text(
-                          "Register",
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                  MaterialButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    elevation: 1,
+                    color: _mainColor,
+                    textColor: Colors.white,
+                    disabledColor: Colors.grey,
+                    disabledTextColor: Colors.white,
+                    minWidth: MediaQuery.of(context).size.width * 0.9,
+                    height: 50.0,
+                    child: Text("Register"),
+                    onPressed: _loading ? null : () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      _register();
+                    },
                   ),
                   SizedBox(height: 20.0),
                 ],

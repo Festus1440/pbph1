@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pb_ph1/Drawer/Events.dart';
 import 'package:pb_ph1/Drawer/Help.dart';
 import 'package:pb_ph1/Drawer/Stories.dart';
-import 'package:pb_ph1/Drawer/shelterDetails.dart';
 
 import 'Analytics/Shelter/ShelterMainAnalytics.dart';
 import 'Drawer/Settings.dart';
-import 'Drawer/restaurantDetails.dart';
 import 'main.dart';
 
 class Drawers extends StatelessWidget {
@@ -71,7 +69,7 @@ class Drawers extends StatelessWidget {
               ),
             ),
           ),
-          data["role"] == "Shelter" ? Expanded(
+          data["role"] == "Client" ? Expanded(
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
@@ -81,7 +79,6 @@ class Drawers extends StatelessWidget {
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantDetails()));
                     },
                     leading: Icon(Icons.restaurant),
                     title: Text("Restaurant Details"),
@@ -103,7 +100,6 @@ class Drawers extends StatelessWidget {
                     leading: Icon(Icons.library_books),
                     title: Text("Stories"),
                   ),
-
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pop();
@@ -116,7 +112,7 @@ class Drawers extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Help(), fullscreenDialog: true));
+                          MaterialPageRoute(builder: (context) => Help(_mainColor, data), fullscreenDialog: true));
                     },
                     leading: Icon(Icons.help),
                     title: Text("Help"),
@@ -171,8 +167,8 @@ class Drawers extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.pop(context);
                       FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.pop(context);
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => Main()),
@@ -196,7 +192,6 @@ class Drawers extends StatelessWidget {
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShelterDetails()));
                     },
                     leading: Icon(Icons.home),
                     title: Text("Shelter Details"),
@@ -225,7 +220,7 @@ class Drawers extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Help(),
+                              builder: (context) => Help(_mainColor, data),
                               fullscreenDialog: true));
                     },
                     leading: Container(child: Icon(Icons.help)),
@@ -283,9 +278,13 @@ class Drawers extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.pop(context);
                       FirebaseAuth.instance.signOut().then((value) {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Main()),
+                              (Route<dynamic> route) => false,
+                        );
                       });
                     },
                     leading: Icon(Icons.arrow_back),

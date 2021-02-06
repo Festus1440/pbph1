@@ -12,21 +12,21 @@ import 'Gmap.dart';
 import 'package:pb_ph1/Drawer/Settings.dart';
 
 
-class ShelterRestaurantMain extends StatefulWidget {
+class ClientRestaurantMain extends StatefulWidget {
   final Map data;
-  ShelterRestaurantMain(this.data);
+  ClientRestaurantMain(this.data);
 
   @override
-  _ShelterRestaurantMainState createState() => _ShelterRestaurantMainState();
+  _ClientRestaurantMainState createState() => _ClientRestaurantMainState();
 }
 
-class _ShelterRestaurantMainState extends State<ShelterRestaurantMain> {
+class _ClientRestaurantMainState extends State<ClientRestaurantMain> {
   String name = "Name";
   String city = "City";
   String state = "State";
   Color _active = Colors.white;
   Color _inactive = Colors.black;
-  bool _isShelter;
+  bool _isClient;
   Color _mainColor;
 
   Completer<GoogleMapController> _mapController = Completer();
@@ -53,13 +53,13 @@ class _ShelterRestaurantMainState extends State<ShelterRestaurantMain> {
   @override
   void initState() {
     super.initState();
-    _isShelter = widget.data["role"] == "Shelter" ? true : false;
-    _mainColor = widget.data["role"] == "Shelter" ? Colors.blue : Colors.green;
+    _isClient = widget.data["role"] == "Client" ? true : false;
+    _mainColor = widget.data["role"] == "Client" ? Colors.yellowAccent[400] : Colors.green;
   }
 
   List<Widget> _buildScreens() {
     return [
-      widget.data["role"] == "Shelter" ? ShelterHomeScreen() : RestaurantHomeScreen(),
+      widget.data["role"] == "Client" ? ClientHomeScreen() : RestaurantHomeScreen(),
       GMap(),
       Pickup(),
     ];
@@ -82,8 +82,8 @@ class _ShelterRestaurantMainState extends State<ShelterRestaurantMain> {
         inactiveColor: _inactive,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(widget.data["role"] == "Shelter" ? Icons.shopping_basket: CupertinoIcons.heart),
-        title: widget.data["role"] == "Shelter" ? ("Pickups"): ("Donations"),
+        icon: Icon(widget.data["role"] == "Client" ? Icons.shopping_basket: CupertinoIcons.heart),
+        title: widget.data["role"] == "Client" ? ("Pickups"): ("Donations"),
         activeColor: _active,
         inactiveColor: _inactive,
       ),
