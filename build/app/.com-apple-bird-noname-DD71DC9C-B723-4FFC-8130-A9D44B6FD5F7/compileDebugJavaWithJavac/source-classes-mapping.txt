@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/flutter/platebeacon/BuildConfig.java
- com.flutter.platebeacon.BuildConfig

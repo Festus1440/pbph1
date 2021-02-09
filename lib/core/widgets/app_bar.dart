@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+class PBDefaultAppBar extends AppBar {
+  PBDefaultAppBar({
+    Key key,
+    Widget leading,
+    bool automaticallyImplyLeading = true,
+    String title,
+    List<Widget> actions,
+    Widget flexibleSpace,
+    PreferredSizeWidget bottom,
+    double elevation,
+    Color shadowColor,
+    ShapeBorder shape,
+    Color backgroundColor,
+    Brightness brightness,
+    IconThemeData iconTheme,
+    IconThemeData actionsIconTheme,
+    TextTheme textTheme,
+    bool primary = true,
+    bool centerTitle,
+    bool excludeHeaderSemantics = false,
+    double titleSpacing = NavigationToolbar.kMiddleSpacing,
+    double toolbarOpacity = 1.0,
+    double bottomOpacity = 1.0,
+    double toolbarHeight,
+  }) : super(
+            key: key,
+            leading: leading,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            title: title.text.textStyle(GoogleFonts.play()).make(),
+            // title: title.text.make(),
+            flexibleSpace: flexibleSpace,
+            bottom: bottom,
+            elevation: elevation,
+            shadowColor: shadowColor,
+            shape: shape,
+            backgroundColor: backgroundColor,
+            brightness: brightness,
+            iconTheme: iconTheme,
+            actionsIconTheme: actionsIconTheme,
+            textTheme: textTheme,
+            primary: primary,
+            centerTitle: centerTitle,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            titleSpacing: titleSpacing,
+            toolbarOpacity: toolbarOpacity,
+            bottomOpacity: bottomOpacity,
+            toolbarHeight: toolbarHeight);
+}

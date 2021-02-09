@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "obsfucate-target": "flutter build apk --obsfucate --split-debug-info=build/app/splitdebug --release",
+    "run": "flutter run",
+    "run-ios:dev": "flutter run --flavor debug",
+    "run-ios:prod": "flutter run --flavor release",
+    "run-android:dev": "flutter run --debug",
+    "run-android:prof": "flutter run --profile",
+    "run-android:prod": "flutter run --release",
+    "build-android:dev": "flutter build apk",
+    "build-android:prod": "flutter build apk --release",
+    "build-runner:watch": "flutter packages pub run build_runner watch --delete-conflicting-outputs",
+    "build-runner:build": "flutter packages pub run build_runner build --delete-conflicting-outputs"
+  }
+}
