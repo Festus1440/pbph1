@@ -49,6 +49,7 @@ dependencies:
   nuvigator: 0.7.2
   rxdart: 0.25.0
   intl: 0.16.1
+  flutter_credit_card: 0.1.4
   cupertino_icons: 1.0.0
 
 dev_dependencies:

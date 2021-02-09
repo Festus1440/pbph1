@@ -48,6 +48,12 @@ extension ManageFundsRouterNavigation on ManageFundsRouter {
       result: result,
     );
   }
+
+  Future<Object> toManageCards() {
+    return nuvigator.pushNamed<Object>(
+      ManageFundsRoutes.manageCards,
+    );
+  }
 }
 
 extension ManageFundsRouterScreensAndRouters on ManageFundsRouter {

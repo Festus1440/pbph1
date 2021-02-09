@@ -67,7 +67,7 @@ class ManageFunds extends HookWidget {
                 };
                 return;
               }
-              await router.popAndPushToManageCards();
+              await router.toManageCards();
 
             }),
         SizedBox(height: 35),
@@ -97,7 +97,7 @@ class ManageFunds extends HookWidget {
           'total: ${((fundsState.value['amount'] as Map)['value']).toString().currencyFormat(currencyName: 'USD')}'.allWordsCapitilize().text.size(25).make(),
           SizedBox(height: 15),
           SlidingButton(hint: 'SLIDE TO ADD FUNDS' ,onSlideEnd: (){
-
+              // TODO: add action
           })
         ], axisSize: MainAxisSize.max, alignment: MainAxisAlignment.center, crossAlignment: CrossAxisAlignment.center,),))
       ])).pSymmetric(v: 20, h: 35),
