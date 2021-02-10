@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nuvigator/nuvigator.dart';
 import 'package:pb_ph1/core/widgets/app_bar.dart';
-import 'package:pb_ph1/core/widgets/sliding_button.dart';
 import 'package:pb_ph1/routers/manage_funds_router.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -28,8 +26,8 @@ class ManageCards extends HookWidget {
           'show_back': _cvvFocus.hasFocus
         };
       });
-      return _cvvFocus.dispose;
-    }, [_cvvFocus]);
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: PBDefaultAppBar(
@@ -47,7 +45,7 @@ class ManageCards extends HookWidget {
         child: VStack(
           [
             CreditCardWidget(
-              cardBgColor: context.primaryColor,
+              cardBgColor: Colors.deepPurpleAccent,
               labelCardHolder: '[Your Name]',
               labelExpiredDate: 'MM/YY',
               cardHolderName: formState.value['card_name'],
@@ -75,8 +73,15 @@ class ManageCards extends HookWidget {
                 };
               },
               validator: (value) => value.isEmptyOrNull ? 'Please input card name' : null,
+              cursorColor: Colors.deepPurpleAccent,
               decoration: InputDecoration(
-                  hintText: 'Enter Card Name',
+                  hintText: 'enter card name'.allWordsCapitilize(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6),
+                    borderSide: BorderSide(
+                      color: Colors.deepPurpleAccent
+                    )
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                   )),
@@ -98,8 +103,16 @@ class ManageCards extends HookWidget {
                 };
               },
               validator: (value) => value.isEmptyOrNull ? 'Please input card number' : null,
+              cursorColor: Colors.deepPurpleAccent,
               decoration: InputDecoration(
                   hintText: 'Enter Card Number',
+                  focusColor: Colors.deepPurpleAccent,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: Colors.deepPurpleAccent
+                      )
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                   )),
@@ -128,8 +141,16 @@ class ManageCards extends HookWidget {
                 formState.value = {...formState.value, 'exp': value.trim()};
               },
               validator: (value) => value.isEmptyOrNull ? 'Please input expiration' : null,
+              cursorColor: Colors.deepPurpleAccent,
               decoration: InputDecoration(
+                  focusColor: Colors.deepPurpleAccent,
                   hintText: 'Enter Expiration (MM/YY)',
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: Colors.deepPurpleAccent
+                      )
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                   )),
@@ -160,8 +181,16 @@ class ManageCards extends HookWidget {
                 formState.value = {...formState.value, 'cvv': value.trim()};
               },
               validator: (value) => value.isEmptyOrNull ? 'Please input cvv code' : null,
+              cursorColor: Colors.deepPurpleAccent,
               decoration: InputDecoration(
+                  focusColor: Colors.deepPurpleAccent,
                   hintText: 'enter 3-digit cvv code'.allWordsCapitilize(),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: Colors.deepPurpleAccent
+                      )
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                   )),
@@ -175,11 +204,6 @@ class ManageCards extends HookWidget {
                 .make(),
             SizedBox(height: 5),
             TextFormField(
-              inputFormatters: [
-                // FilteringTextInputFormatter.allow(RegExp("[0-9/]")),
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(3),
-              ],
               onChanged: (value) {
                 // final tempValue = value.replaceAllMapped(RegExp(r'.{2}'), (match) => '${match.group(0)}/');
                 // final expValue = value.length == 4 ? tempValue.eliminateLast : tempValue;
@@ -192,8 +216,16 @@ class ManageCards extends HookWidget {
                 formState.value = {...formState.value, 'postal': value.trim()};
               },
               validator: (value) => value.isEmptyOrNull ? 'Please input billing postal code' : null,
+              cursorColor: Colors.deepPurpleAccent,
               decoration: InputDecoration(
+                  focusColor: Colors.deepPurpleAccent,
                   hintText: 'enter billing postal code'.allWordsCapitilize(),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: Colors.deepPurpleAccent
+                      )
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                   )),
@@ -202,6 +234,7 @@ class ManageCards extends HookWidget {
             CheckboxListTile(
                 title: 'save this credit card for future fund reload'.firstLetterUpperCase().text.make(),
                 value: formState.value['save'],
+                activeColor: const Color(0xFFA0C44D),
                 controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: const EdgeInsets.only(left: 0),
                 onChanged: (value) {
@@ -212,11 +245,13 @@ class ManageCards extends HookWidget {
               child: 'save and proceed'.allWordsCapitilize().text.size(18).color(Colors.white).make(),
               padding: EdgeInsets.only(top: 10, bottom: 10),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-              color: Theme.of(context).primaryColor,
+              color: Colors.deepPurpleAccent,
               onPressed: () async {
                 if (!_formKey.currentState.validate()) {
                   return;
                 }
+
+                Nuvigator.of(context).pop();
                 // _formKey.currentState.save();
 
               },

@@ -14,7 +14,11 @@ class SlidingButton extends HookWidget {
   final SlidingButtonEndCallback onSlideEnd;
   final BehaviorSubject<bool> _clickStream = BehaviorSubject<bool>();
   final String hint;
-  SlidingButton({this.onSlideEnd, this.hint});
+  final Color thumbColor;
+  final Color thumbPathColor;
+  final Color labelColor;
+  final Color chevronColor;
+  SlidingButton({this.onSlideEnd, this.hint, this.thumbColor, this.thumbPathColor, this.labelColor, this.chevronColor});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +54,11 @@ class SlidingButton extends HookWidget {
                   _clickStream.add(true);
                 },
                 dragDetails: dragState.value,
-                thumbColor: theme.primaryColor,
-                thumbPathEraserColor: Scaffold.of(context)?.widget?.backgroundColor ?? theme.scaffoldBackgroundColor,
-                textStyle: theme.textTheme.bodyText2.copyWith(color: theme.primaryColor, fontSize: context.moderateScale(13))),
+                chevronColor: this.chevronColor ?? null,
+                thumbColor: this.thumbColor ?? theme.primaryColor,
+                trackColor: this.thumbPathColor ?? null,
+                thumbPathEraserColor: this.thumbPathColor ?? Scaffold.of(context)?.widget?.backgroundColor ?? theme.scaffoldBackgroundColor,
+                textStyle: theme.textTheme.bodyText2.copyWith(color: this.labelColor ?? theme.primaryColor, fontSize: context.moderateScale(13))),
           ),
           onHorizontalDragUpdate: (details) {
             final diff = dragState.value - details.localPosition;
@@ -67,7 +73,8 @@ class SlidingButton extends HookWidget {
           onTapUp: (details) {
             dragState.value = Offset.zero;
           }),
-    ).pSymmetric(h: context.moderateScale(10));
+    ).pSymmetric(h: context.moderateScale(10)
+    );
   }
 }
 
@@ -104,7 +111,7 @@ class SlidingButtonPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint trackPaint = Paint()
       ..color = trackColor
-      ..style = PaintingStyle.stroke
+      ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5;
 
@@ -139,9 +146,6 @@ class SlidingButtonPainter extends CustomPainter {
         ellipsis: '...')
       ..layout(maxWidth: rectText.width - 5);
 
-    textPainter.paint(
-        canvas, Offset(rectText.center.dx - (textPainter.width / 2), rectText.center.dy - (textPainter.height / 2)));
-
     final RRect roundedRect = RRect.fromRectAndRadius(
         Rect.fromCenter(center: Offset(size.width / 2, size.height / 2), width: size.width, height: size.height * 0.80),
         Radius.circular(size.height / 2));
@@ -157,7 +161,13 @@ class SlidingButtonPainter extends CustomPainter {
 
     circlePath.close();
 
+    rRectPath.close();
+    canvas.drawPath(rRectPath, trackPaint);
+
+    textPainter.paint(
+        canvas, Offset(rectText.center.dx - (textPainter.width / 2), rectText.center.dy - (textPainter.height / 2)));
     canvas.drawLine(Offset(height * minProgress, height / 2), circlePath.getBounds().center, thumbPathPaint);
+
     canvas.drawPath(circlePath, thumbPaint);
 
     canvas.save();
@@ -168,8 +178,8 @@ class SlidingButtonPainter extends CustomPainter {
     canvas.drawLine(Offset(0.0, line), Offset(line, line), chevronPaint);
     canvas.restore();
 
-    rRectPath.close();
-    canvas.drawPath(rRectPath, trackPaint);
+
+
     if (progress >= 1.0 && slidingButtonEndCallback != null) {
       slidingButtonEndCallback();
     }
