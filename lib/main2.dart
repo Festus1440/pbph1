@@ -15,8 +15,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         theme: ThemeData(
-            primarySwatch: createMaterialColor(Color(0xFF8D0CE8)),
+            primarySwatch: createMaterialColor(Color(0xFFFBFF43)),
             textTheme: GoogleFonts.playTextTheme(Theme.of(context).textTheme),
+            textSelectionColor: Colors.deepPurpleAccent,
+            highlightColor: Colors.deepPurpleAccent,
             visualDensity: VisualDensity.adaptivePlatformDensity),
       home: Nuvigator(
           router: RootRouter(),
